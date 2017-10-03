@@ -1,0 +1,1066 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000006d2  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000002  00800060  000006d2  00000766  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000001c  00800062  00800062  00000768  2**0
+                  ALLOC
+  3 .debug_aranges 00000020  00000000  00000000  00000768  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_pubnames 00000205  00000000  00000000  00000788  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000002f1  00000000  00000000  0000098d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000000e7  00000000  00000000  00000c7e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000004c5  00000000  00000000  00000d65  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000060  00000000  00000000  0000122c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000210  00000000  00000000  0000128c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    0000005a  00000000  00000000  0000149c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	10 c0       	rjmp	.+32     	; 0x22 <__ctors_end>
+   2:	2a c0       	rjmp	.+84     	; 0x58 <__bad_interrupt>
+   4:	29 c0       	rjmp	.+82     	; 0x58 <__bad_interrupt>
+   6:	28 c0       	rjmp	.+80     	; 0x58 <__bad_interrupt>
+   8:	27 c0       	rjmp	.+78     	; 0x58 <__bad_interrupt>
+   a:	27 c0       	rjmp	.+78     	; 0x5a <__vector_5>
+   c:	25 c0       	rjmp	.+74     	; 0x58 <__bad_interrupt>
+   e:	24 c0       	rjmp	.+72     	; 0x58 <__bad_interrupt>
+  10:	23 c0       	rjmp	.+70     	; 0x58 <__bad_interrupt>
+  12:	22 c0       	rjmp	.+68     	; 0x58 <__bad_interrupt>
+  14:	21 c0       	rjmp	.+66     	; 0x58 <__bad_interrupt>
+  16:	20 c0       	rjmp	.+64     	; 0x58 <__bad_interrupt>
+  18:	1f c0       	rjmp	.+62     	; 0x58 <__bad_interrupt>
+  1a:	1e c0       	rjmp	.+60     	; 0x58 <__bad_interrupt>
+  1c:	1d c0       	rjmp	.+58     	; 0x58 <__bad_interrupt>
+  1e:	1c c0       	rjmp	.+56     	; 0x58 <__bad_interrupt>
+  20:	1b c0       	rjmp	.+54     	; 0x58 <__bad_interrupt>
+
+00000022 <__ctors_end>:
+  22:	11 24       	eor	r1, r1
+  24:	1f be       	out	0x3f, r1	; 63
+  26:	cf e5       	ldi	r28, 0x5F	; 95
+  28:	d1 e0       	ldi	r29, 0x01	; 1
+  2a:	de bf       	out	0x3e, r29	; 62
+  2c:	cd bf       	out	0x3d, r28	; 61
+
+0000002e <__do_copy_data>:
+  2e:	10 e0       	ldi	r17, 0x00	; 0
+  30:	a0 e6       	ldi	r26, 0x60	; 96
+  32:	b0 e0       	ldi	r27, 0x00	; 0
+  34:	e2 ed       	ldi	r30, 0xD2	; 210
+  36:	f6 e0       	ldi	r31, 0x06	; 6
+  38:	02 c0       	rjmp	.+4      	; 0x3e <.do_copy_data_start>
+
+0000003a <.do_copy_data_loop>:
+  3a:	05 90       	lpm	r0, Z+
+  3c:	0d 92       	st	X+, r0
+
+0000003e <.do_copy_data_start>:
+  3e:	a2 36       	cpi	r26, 0x62	; 98
+  40:	b1 07       	cpc	r27, r17
+  42:	d9 f7       	brne	.-10     	; 0x3a <.do_copy_data_loop>
+
+00000044 <__do_clear_bss>:
+  44:	10 e0       	ldi	r17, 0x00	; 0
+  46:	a2 e6       	ldi	r26, 0x62	; 98
+  48:	b0 e0       	ldi	r27, 0x00	; 0
+  4a:	01 c0       	rjmp	.+2      	; 0x4e <.do_clear_bss_start>
+
+0000004c <.do_clear_bss_loop>:
+  4c:	1d 92       	st	X+, r1
+
+0000004e <.do_clear_bss_start>:
+  4e:	ae 37       	cpi	r26, 0x7E	; 126
+  50:	b1 07       	cpc	r27, r17
+  52:	e1 f7       	brne	.-8      	; 0x4c <.do_clear_bss_loop>
+  54:	54 d1       	rcall	.+680    	; 0x2fe <main>
+  56:	3b c3       	rjmp	.+1654   	; 0x6ce <_exit>
+
+00000058 <__bad_interrupt>:
+  58:	d3 cf       	rjmp	.-90     	; 0x0 <__vectors>
+
+0000005a <__vector_5>:
+#define LED_B	(1<<PA0)
+
+unsigned char tmp_pwm_r, tmp_pwm_g, tmp_pwm_b;
+
+ISR(TIM1_CAPT_vect)
+{
+  5a:	1f 92       	push	r1
+  5c:	0f 92       	push	r0
+  5e:	0f b6       	in	r0, 0x3f	; 63
+  60:	0f 92       	push	r0
+  62:	11 24       	eor	r1, r1
+  64:	2f 93       	push	r18
+  66:	8f 93       	push	r24
+  68:	9f 93       	push	r25
+	// Счётчики
+	interrupt_count++;
+  6a:	80 91 62 00 	lds	r24, 0x0062
+  6e:	90 91 63 00 	lds	r25, 0x0063
+  72:	01 96       	adiw	r24, 0x01	; 1
+  74:	90 93 63 00 	sts	0x0063, r25
+  78:	80 93 62 00 	sts	0x0062, r24
+	if(interrupt_count>=INTERRUPTS_IN_SECOND)
+  7c:	80 91 62 00 	lds	r24, 0x0062
+  80:	90 91 63 00 	lds	r25, 0x0063
+  84:	82 51       	subi	r24, 0x12	; 18
+  86:	9a 47       	sbci	r25, 0x7A	; 122
+  88:	38 f0       	brcs	.+14     	; 0x98 <__vector_5+0x3e>
+	{
+		interrupt_count=0;
+  8a:	10 92 63 00 	sts	0x0063, r1
+  8e:	10 92 62 00 	sts	0x0062, r1
+		flag_second_passed=1;
+  92:	81 e0       	ldi	r24, 0x01	; 1
+  94:	80 93 64 00 	sts	0x0064, r24
+	}
+	
+	led_pwm_count++;
+  98:	80 91 6f 00 	lds	r24, 0x006F
+  9c:	8f 5f       	subi	r24, 0xFF	; 255
+  9e:	80 93 6f 00 	sts	0x006F, r24
+	
+	// Зажигаем светодиод подсветки кнопки
+	if(interrupt_count==INTERRUPTS_IN_SECOND/2 && !flag_button_is_locked) BUTTON_LIGHT_ON();
+  a2:	80 91 62 00 	lds	r24, 0x0062
+  a6:	90 91 63 00 	lds	r25, 0x0063
+  aa:	89 50       	subi	r24, 0x09	; 9
+  ac:	9d 43       	sbci	r25, 0x3D	; 61
+  ae:	29 f4       	brne	.+10     	; 0xba <__vector_5+0x60>
+  b0:	80 91 66 00 	lds	r24, 0x0066
+  b4:	88 23       	and	r24, r24
+  b6:	09 f4       	brne	.+2      	; 0xba <__vector_5+0x60>
+  b8:	db 98       	cbi	0x1b, 3	; 27
+		
+	// Светодиоды подсветки лампы
+	if(led_pwm_count==0 && flag_light_is_on)
+  ba:	80 91 6f 00 	lds	r24, 0x006F
+  be:	88 23       	and	r24, r24
+  c0:	a1 f4       	brne	.+40     	; 0xea <__vector_5+0x90>
+  c2:	80 91 6d 00 	lds	r24, 0x006D
+  c6:	88 23       	and	r24, r24
+  c8:	81 f0       	breq	.+32     	; 0xea <__vector_5+0x90>
+	{
+		tmp_pwm_r=pwm_r;
+  ca:	80 91 70 00 	lds	r24, 0x0070
+  ce:	80 93 7c 00 	sts	0x007C, r24
+		tmp_pwm_g=pwm_g;
+  d2:	80 91 71 00 	lds	r24, 0x0071
+  d6:	80 93 78 00 	sts	0x0078, r24
+		tmp_pwm_b=pwm_b;
+  da:	80 91 60 00 	lds	r24, 0x0060
+  de:	80 93 79 00 	sts	0x0079, r24
+		PORTA|=LED_B;
+  e2:	d8 9a       	sbi	0x1b, 0	; 27
+		PORTB|=LED_R|LED_G;
+  e4:	88 b3       	in	r24, 0x18	; 24
+  e6:	83 60       	ori	r24, 0x03	; 3
+  e8:	88 bb       	out	0x18, r24	; 24
+	}
+	
+	if(led_pwm_count == tmp_pwm_r) PORTB&=~LED_R;
+  ea:	90 91 6f 00 	lds	r25, 0x006F
+  ee:	80 91 7c 00 	lds	r24, 0x007C
+  f2:	98 17       	cp	r25, r24
+  f4:	09 f4       	brne	.+2      	; 0xf8 <__vector_5+0x9e>
+  f6:	c0 98       	cbi	0x18, 0	; 24
+	if(led_pwm_count == tmp_pwm_g) PORTB&=~LED_G;
+  f8:	90 91 6f 00 	lds	r25, 0x006F
+  fc:	80 91 78 00 	lds	r24, 0x0078
+ 100:	98 17       	cp	r25, r24
+ 102:	09 f4       	brne	.+2      	; 0x106 <__vector_5+0xac>
+ 104:	c1 98       	cbi	0x18, 1	; 24
+	if(led_pwm_count == tmp_pwm_b) PORTA&=~LED_B;
+ 106:	90 91 6f 00 	lds	r25, 0x006F
+ 10a:	80 91 79 00 	lds	r24, 0x0079
+ 10e:	98 17       	cp	r25, r24
+ 110:	09 f4       	brne	.+2      	; 0x114 <__vector_5+0xba>
+ 112:	d8 98       	cbi	0x1b, 0	; 27
+	
+	if(color_pwm_cycle<PWM_COLOR_CHANGE_STEP) color_pwm_cycle++;
+ 114:	80 91 72 00 	lds	r24, 0x0072
+ 118:	90 91 73 00 	lds	r25, 0x0073
+ 11c:	88 5e       	subi	r24, 0xE8	; 232
+ 11e:	93 40       	sbci	r25, 0x03	; 3
+ 120:	48 f4       	brcc	.+18     	; 0x134 <__vector_5+0xda>
+ 122:	80 91 72 00 	lds	r24, 0x0072
+ 126:	90 91 73 00 	lds	r25, 0x0073
+ 12a:	01 96       	adiw	r24, 0x01	; 1
+ 12c:	90 93 73 00 	sts	0x0073, r25
+ 130:	80 93 72 00 	sts	0x0072, r24
+	if(lumi_pwm_cycle<PWM_LUMI_CHANGE_STEP) lumi_pwm_cycle++;
+ 134:	80 91 74 00 	lds	r24, 0x0074
+ 138:	90 91 75 00 	lds	r25, 0x0075
+ 13c:	80 5d       	subi	r24, 0xD0	; 208
+ 13e:	97 40       	sbci	r25, 0x07	; 7
+ 140:	48 f4       	brcc	.+18     	; 0x154 <__vector_5+0xfa>
+ 142:	80 91 74 00 	lds	r24, 0x0074
+ 146:	90 91 75 00 	lds	r25, 0x0075
+ 14a:	01 96       	adiw	r24, 0x01	; 1
+ 14c:	90 93 75 00 	sts	0x0075, r25
+ 150:	80 93 74 00 	sts	0x0074, r24
+}
+ 154:	9f 91       	pop	r25
+ 156:	8f 91       	pop	r24
+ 158:	2f 91       	pop	r18
+ 15a:	0f 90       	pop	r0
+ 15c:	0f be       	out	0x3f, r0	; 63
+ 15e:	0f 90       	pop	r0
+ 160:	1f 90       	pop	r1
+ 162:	18 95       	reti
+
+00000164 <set_Luminance>:
+#define EEPROM_PWM_B		3
+#define EEPROM_PWM_LUM		4
+
+// Задаём интенсивность света лампы
+void set_Luminance(void)
+{
+ 164:	9f 92       	push	r9
+ 166:	af 92       	push	r10
+ 168:	bf 92       	push	r11
+ 16a:	cf 92       	push	r12
+ 16c:	df 92       	push	r13
+ 16e:	ef 92       	push	r14
+ 170:	ff 92       	push	r15
+ 172:	0f 93       	push	r16
+ 174:	1f 93       	push	r17
+	if(pwm_lum==255) pwm_lum=254;
+ 176:	80 91 61 00 	lds	r24, 0x0061
+ 17a:	8f 3f       	cpi	r24, 0xFF	; 255
+ 17c:	19 f4       	brne	.+6      	; 0x184 <set_Luminance+0x20>
+ 17e:	8e ef       	ldi	r24, 0xFE	; 254
+ 180:	80 93 61 00 	sts	0x0061, r24
+	
+	unsigned long lum_percent, tmp_pwm;
+	
+	if(pwm_lum<=127)
+ 184:	80 91 61 00 	lds	r24, 0x0061
+ 188:	87 fd       	sbrc	r24, 7
+ 18a:	3d c0       	rjmp	.+122    	; 0x206 <set_Luminance+0xa2>
+	{ // затемнение до чёрного
+		lum_percent = 1000 * (unsigned long)pwm_lum / 127;
+ 18c:	60 91 61 00 	lds	r22, 0x0061
+ 190:	70 e0       	ldi	r23, 0x00	; 0
+ 192:	80 e0       	ldi	r24, 0x00	; 0
+ 194:	90 e0       	ldi	r25, 0x00	; 0
+ 196:	28 ee       	ldi	r18, 0xE8	; 232
+ 198:	33 e0       	ldi	r19, 0x03	; 3
+ 19a:	40 e0       	ldi	r20, 0x00	; 0
+ 19c:	50 e0       	ldi	r21, 0x00	; 0
+ 19e:	5c d2       	rcall	.+1208   	; 0x658 <__mulsi3>
+ 1a0:	2f e7       	ldi	r18, 0x7F	; 127
+ 1a2:	30 e0       	ldi	r19, 0x00	; 0
+ 1a4:	40 e0       	ldi	r20, 0x00	; 0
+ 1a6:	50 e0       	ldi	r21, 0x00	; 0
+ 1a8:	70 d2       	rcall	.+1248   	; 0x68a <__udivmodsi4>
+ 1aa:	79 01       	movw	r14, r18
+ 1ac:	8a 01       	movw	r16, r20
+		
+		tmp_pwm = lum_percent * (unsigned long)src_pwm_r / 1000;
+ 1ae:	20 91 7b 00 	lds	r18, 0x007B
+		pwm_r = (unsigned char) tmp_pwm;
+ 1b2:	30 e0       	ldi	r19, 0x00	; 0
+ 1b4:	40 e0       	ldi	r20, 0x00	; 0
+ 1b6:	50 e0       	ldi	r21, 0x00	; 0
+ 1b8:	c8 01       	movw	r24, r16
+ 1ba:	b7 01       	movw	r22, r14
+ 1bc:	4d d2       	rcall	.+1178   	; 0x658 <__mulsi3>
+ 1be:	28 ee       	ldi	r18, 0xE8	; 232
+ 1c0:	33 e0       	ldi	r19, 0x03	; 3
+ 1c2:	40 e0       	ldi	r20, 0x00	; 0
+ 1c4:	50 e0       	ldi	r21, 0x00	; 0
+ 1c6:	61 d2       	rcall	.+1218   	; 0x68a <__udivmodsi4>
+ 1c8:	20 93 70 00 	sts	0x0070, r18
+		
+		tmp_pwm = lum_percent * (unsigned long)src_pwm_g / 1000;
+ 1cc:	20 91 7d 00 	lds	r18, 0x007D
+		pwm_g = (unsigned char) tmp_pwm;
+ 1d0:	30 e0       	ldi	r19, 0x00	; 0
+ 1d2:	40 e0       	ldi	r20, 0x00	; 0
+ 1d4:	50 e0       	ldi	r21, 0x00	; 0
+ 1d6:	c8 01       	movw	r24, r16
+ 1d8:	b7 01       	movw	r22, r14
+ 1da:	3e d2       	rcall	.+1148   	; 0x658 <__mulsi3>
+ 1dc:	28 ee       	ldi	r18, 0xE8	; 232
+ 1de:	33 e0       	ldi	r19, 0x03	; 3
+ 1e0:	40 e0       	ldi	r20, 0x00	; 0
+ 1e2:	50 e0       	ldi	r21, 0x00	; 0
+ 1e4:	52 d2       	rcall	.+1188   	; 0x68a <__udivmodsi4>
+ 1e6:	20 93 71 00 	sts	0x0071, r18
+		
+		tmp_pwm = lum_percent * (unsigned long)src_pwm_b / 1000;
+ 1ea:	20 91 7a 00 	lds	r18, 0x007A
+		pwm_b = (unsigned char) tmp_pwm;
+ 1ee:	30 e0       	ldi	r19, 0x00	; 0
+ 1f0:	40 e0       	ldi	r20, 0x00	; 0
+ 1f2:	50 e0       	ldi	r21, 0x00	; 0
+ 1f4:	c8 01       	movw	r24, r16
+ 1f6:	b7 01       	movw	r22, r14
+ 1f8:	2f d2       	rcall	.+1118   	; 0x658 <__mulsi3>
+ 1fa:	28 ee       	ldi	r18, 0xE8	; 232
+ 1fc:	33 e0       	ldi	r19, 0x03	; 3
+ 1fe:	40 e0       	ldi	r20, 0x00	; 0
+ 200:	50 e0       	ldi	r21, 0x00	; 0
+ 202:	43 d2       	rcall	.+1158   	; 0x68a <__udivmodsi4>
+ 204:	60 c0       	rjmp	.+192    	; 0x2c6 <set_Luminance+0x162>
+	}
+	else
+	{ // осветление до белого
+		lum_percent = 1000 * ((unsigned long)pwm_lum - 127 ) / 127;
+ 206:	60 91 61 00 	lds	r22, 0x0061
+ 20a:	70 e0       	ldi	r23, 0x00	; 0
+ 20c:	80 e0       	ldi	r24, 0x00	; 0
+ 20e:	90 e0       	ldi	r25, 0x00	; 0
+ 210:	28 ee       	ldi	r18, 0xE8	; 232
+ 212:	33 e0       	ldi	r19, 0x03	; 3
+ 214:	40 e0       	ldi	r20, 0x00	; 0
+ 216:	50 e0       	ldi	r21, 0x00	; 0
+ 218:	1f d2       	rcall	.+1086   	; 0x658 <__mulsi3>
+ 21a:	68 51       	subi	r22, 0x18	; 24
+ 21c:	70 4f       	sbci	r23, 0xF0	; 240
+ 21e:	81 40       	sbci	r24, 0x01	; 1
+ 220:	90 40       	sbci	r25, 0x00	; 0
+ 222:	2f e7       	ldi	r18, 0x7F	; 127
+ 224:	30 e0       	ldi	r19, 0x00	; 0
+ 226:	40 e0       	ldi	r20, 0x00	; 0
+ 228:	50 e0       	ldi	r21, 0x00	; 0
+ 22a:	2f d2       	rcall	.+1118   	; 0x68a <__udivmodsi4>
+ 22c:	79 01       	movw	r14, r18
+ 22e:	8a 01       	movw	r16, r20
+	
+		tmp_pwm = (unsigned long)src_pwm_r + lum_percent * (255 - (unsigned long)src_pwm_r) / 1000;
+ 230:	90 90 7b 00 	lds	r9, 0x007B
+ 234:	80 91 7b 00 	lds	r24, 0x007B
+		pwm_r = (unsigned char) tmp_pwm;
+ 238:	9f ef       	ldi	r25, 0xFF	; 255
+ 23a:	a9 2e       	mov	r10, r25
+ 23c:	b1 2c       	mov	r11, r1
+ 23e:	c1 2c       	mov	r12, r1
+ 240:	d1 2c       	mov	r13, r1
+ 242:	a6 01       	movw	r20, r12
+ 244:	95 01       	movw	r18, r10
+ 246:	28 1b       	sub	r18, r24
+ 248:	31 09       	sbc	r19, r1
+ 24a:	41 09       	sbc	r20, r1
+ 24c:	51 09       	sbc	r21, r1
+ 24e:	c8 01       	movw	r24, r16
+ 250:	b7 01       	movw	r22, r14
+ 252:	02 d2       	rcall	.+1028   	; 0x658 <__mulsi3>
+ 254:	28 ee       	ldi	r18, 0xE8	; 232
+ 256:	33 e0       	ldi	r19, 0x03	; 3
+ 258:	40 e0       	ldi	r20, 0x00	; 0
+ 25a:	50 e0       	ldi	r21, 0x00	; 0
+ 25c:	16 d2       	rcall	.+1068   	; 0x68a <__udivmodsi4>
+ 25e:	29 0d       	add	r18, r9
+ 260:	31 1d       	adc	r19, r1
+ 262:	41 1d       	adc	r20, r1
+ 264:	51 1d       	adc	r21, r1
+ 266:	20 93 70 00 	sts	0x0070, r18
+		
+		tmp_pwm = (unsigned long)src_pwm_g + lum_percent * (255 - (unsigned long)src_pwm_g) / 1000;
+ 26a:	90 90 7d 00 	lds	r9, 0x007D
+ 26e:	80 91 7d 00 	lds	r24, 0x007D
+		pwm_g = (unsigned char) tmp_pwm;
+ 272:	a6 01       	movw	r20, r12
+ 274:	95 01       	movw	r18, r10
+ 276:	28 1b       	sub	r18, r24
+ 278:	31 09       	sbc	r19, r1
+ 27a:	41 09       	sbc	r20, r1
+ 27c:	51 09       	sbc	r21, r1
+ 27e:	c8 01       	movw	r24, r16
+ 280:	b7 01       	movw	r22, r14
+ 282:	ea d1       	rcall	.+980    	; 0x658 <__mulsi3>
+ 284:	28 ee       	ldi	r18, 0xE8	; 232
+ 286:	33 e0       	ldi	r19, 0x03	; 3
+ 288:	40 e0       	ldi	r20, 0x00	; 0
+ 28a:	50 e0       	ldi	r21, 0x00	; 0
+ 28c:	fe d1       	rcall	.+1020   	; 0x68a <__udivmodsi4>
+ 28e:	29 0d       	add	r18, r9
+ 290:	31 1d       	adc	r19, r1
+ 292:	41 1d       	adc	r20, r1
+ 294:	51 1d       	adc	r21, r1
+ 296:	20 93 71 00 	sts	0x0071, r18
+		
+		tmp_pwm = (unsigned long)src_pwm_b + lum_percent * (255 - (unsigned long)src_pwm_b) / 1000;
+ 29a:	90 90 7a 00 	lds	r9, 0x007A
+ 29e:	80 91 7a 00 	lds	r24, 0x007A
+		pwm_b = (unsigned char) tmp_pwm;
+ 2a2:	a8 1a       	sub	r10, r24
+ 2a4:	b1 08       	sbc	r11, r1
+ 2a6:	c1 08       	sbc	r12, r1
+ 2a8:	d1 08       	sbc	r13, r1
+ 2aa:	c8 01       	movw	r24, r16
+ 2ac:	b7 01       	movw	r22, r14
+ 2ae:	a6 01       	movw	r20, r12
+ 2b0:	95 01       	movw	r18, r10
+ 2b2:	d2 d1       	rcall	.+932    	; 0x658 <__mulsi3>
+ 2b4:	28 ee       	ldi	r18, 0xE8	; 232
+ 2b6:	33 e0       	ldi	r19, 0x03	; 3
+ 2b8:	40 e0       	ldi	r20, 0x00	; 0
+ 2ba:	50 e0       	ldi	r21, 0x00	; 0
+ 2bc:	e6 d1       	rcall	.+972    	; 0x68a <__udivmodsi4>
+ 2be:	29 0d       	add	r18, r9
+ 2c0:	31 1d       	adc	r19, r1
+ 2c2:	41 1d       	adc	r20, r1
+ 2c4:	51 1d       	adc	r21, r1
+ 2c6:	20 93 60 00 	sts	0x0060, r18
+	}
+	
+	
+}
+ 2ca:	1f 91       	pop	r17
+ 2cc:	0f 91       	pop	r16
+ 2ce:	ff 90       	pop	r15
+ 2d0:	ef 90       	pop	r14
+ 2d2:	df 90       	pop	r13
+ 2d4:	cf 90       	pop	r12
+ 2d6:	bf 90       	pop	r11
+ 2d8:	af 90       	pop	r10
+ 2da:	9f 90       	pop	r9
+ 2dc:	08 95       	ret
+
+000002de <EEPROM_write>:
+
+// Запись байта в энергонезависимую память
+void EEPROM_write(unsigned char address, unsigned char value)
+{
+	while(EECR & (1<<EEPE));
+ 2de:	e1 99       	sbic	0x1c, 1	; 28
+ 2e0:	fe cf       	rjmp	.-4      	; 0x2de <EEPROM_write>
+	EECR=(0<<EEPM1)|(0<<EEPM0);
+ 2e2:	1c ba       	out	0x1c, r1	; 28
+	EEARH=0;EEARL=address;
+ 2e4:	1f ba       	out	0x1f, r1	; 31
+ 2e6:	8e bb       	out	0x1e, r24	; 30
+	EEDR=value;
+ 2e8:	6d bb       	out	0x1d, r22	; 29
+	EECR |= (1<<EEMPE);
+ 2ea:	e2 9a       	sbi	0x1c, 2	; 28
+	EECR |= (1<<EEPE);
+ 2ec:	e1 9a       	sbi	0x1c, 1	; 28
+}
+ 2ee:	08 95       	ret
+
+000002f0 <EEPROM_read>:
+
+// Чтение байта из энергонезависимой памяти
+unsigned char EEPROM_read(unsigned char address)
+{
+	while(EECR & (1<<EEPE));
+ 2f0:	e1 99       	sbic	0x1c, 1	; 28
+ 2f2:	fe cf       	rjmp	.-4      	; 0x2f0 <EEPROM_read>
+	EEARH=0;EEARL=address;
+ 2f4:	1f ba       	out	0x1f, r1	; 31
+ 2f6:	8e bb       	out	0x1e, r24	; 30
+	EECR |= (1<<EERE);
+ 2f8:	e0 9a       	sbi	0x1c, 0	; 28
+	unsigned char tmp=EEDR;
+ 2fa:	8d b3       	in	r24, 0x1d	; 29
+	return tmp;
+}
+ 2fc:	08 95       	ret
+
+000002fe <main>:
+
+int main(void)
+{
+ 2fe:	ff 92       	push	r15
+ 300:	0f 93       	push	r16
+ 302:	1f 93       	push	r17
+	// Настройка генератора сигнала для пьезоизлучателя
+	TCCR0A=0b00100011;
+ 304:	93 e2       	ldi	r25, 0x23	; 35
+ 306:	90 bf       	out	0x30, r25	; 48
+	TCCR0B=0b00001001;
+ 308:	89 e0       	ldi	r24, 0x09	; 9
+ 30a:	83 bf       	out	0x33, r24	; 51
+	OCR0A=70;
+ 30c:	86 e4       	ldi	r24, 0x46	; 70
+ 30e:	86 bf       	out	0x36, r24	; 54
+	OCR0B=35;
+ 310:	9c bf       	out	0x3c, r25	; 60
+	
+	// Настройка таймера для отсчёта времени и ШИМ светодиодов подсветки лампы
+	TCCR1B=0b00011001;
+ 312:	89 e1       	ldi	r24, 0x19	; 25
+ 314:	8e bd       	out	0x2e, r24	; 46
+	TIMSK1=0b00100000;
+ 316:	80 e2       	ldi	r24, 0x20	; 32
+ 318:	8c b9       	out	0x0c, r24	; 12
+	ICR1=0x00FF;
+ 31a:	8f ef       	ldi	r24, 0xFF	; 255
+ 31c:	90 e0       	ldi	r25, 0x00	; 0
+ 31e:	95 bd       	out	0x25, r25	; 37
+ 320:	84 bd       	out	0x24, r24	; 36
+	
+	// Настройка кнопки
+	PORTA|=(1<<PA1);
+ 322:	d9 9a       	sbi	0x1b, 1	; 27
+	
+	// Настройка светодиода в пульте
+	DDRA|=(1<<PA3);
+ 324:	d3 9a       	sbi	0x1a, 3	; 26
+	
+	// Настройка светодиодов подсветки лампы
+	DDRA|=LED_B;
+ 326:	d0 9a       	sbi	0x1a, 0	; 26
+	DDRB|=LED_R|LED_G;
+ 328:	87 b3       	in	r24, 0x17	; 23
+ 32a:	83 60       	ori	r24, 0x03	; 3
+ 32c:	87 bb       	out	0x17, r24	; 23
+	
+	// Считываем настройки из энергонезависимой памяти
+	flag_light_is_on = EEPROM_read(EEPROM_LIGHT_IS_ON);
+ 32e:	80 e0       	ldi	r24, 0x00	; 0
+ 330:	df df       	rcall	.-66     	; 0x2f0 <EEPROM_read>
+ 332:	80 93 6d 00 	sts	0x006D, r24
+	pwm_r=EEPROM_read(EEPROM_PWM_R);
+ 336:	81 e0       	ldi	r24, 0x01	; 1
+ 338:	db df       	rcall	.-74     	; 0x2f0 <EEPROM_read>
+ 33a:	80 93 70 00 	sts	0x0070, r24
+	pwm_g=EEPROM_read(EEPROM_PWM_G);
+ 33e:	82 e0       	ldi	r24, 0x02	; 2
+ 340:	d7 df       	rcall	.-82     	; 0x2f0 <EEPROM_read>
+ 342:	80 93 71 00 	sts	0x0071, r24
+	pwm_b=EEPROM_read(EEPROM_PWM_B);
+ 346:	83 e0       	ldi	r24, 0x03	; 3
+ 348:	d3 df       	rcall	.-90     	; 0x2f0 <EEPROM_read>
+ 34a:	80 93 60 00 	sts	0x0060, r24
+	src_pwm_r=pwm_r;
+ 34e:	80 91 70 00 	lds	r24, 0x0070
+ 352:	80 93 7b 00 	sts	0x007B, r24
+	src_pwm_g=pwm_g;
+ 356:	80 91 71 00 	lds	r24, 0x0071
+ 35a:	80 93 7d 00 	sts	0x007D, r24
+	src_pwm_b=pwm_b;
+ 35e:	80 91 60 00 	lds	r24, 0x0060
+ 362:	80 93 7a 00 	sts	0x007A, r24
+	pwm_lum=EEPROM_read(EEPROM_PWM_LUM);
+ 366:	84 e0       	ldi	r24, 0x04	; 4
+ 368:	c3 df       	rcall	.-122    	; 0x2f0 <EEPROM_read>
+ 36a:	80 93 61 00 	sts	0x0061, r24
+	
+	// Задаём интенсивность света лампы
+	set_Luminance();
+ 36e:	fa de       	rcall	.-524    	; 0x164 <set_Luminance>
+	
+	// Включаем прерывания
+	sei();
+ 370:	78 94       	sei
+			seconds_button=0;
+			button_oldstate=0;
+		}
+		else
+		{ // если кнопка нажата
+			button_oldstate=1;
+ 372:	11 e0       	ldi	r17, 0x01	; 1
+						flag_light_is_on=1;
+						flag_luminance_setup=1;
+						src_pwm_r=EEPROM_read(EEPROM_PWM_R);
+						src_pwm_g=EEPROM_read(EEPROM_PWM_G);
+						src_pwm_b=EEPROM_read(EEPROM_PWM_B);
+						pwm_lum=127;
+ 374:	0f e7       	ldi	r16, 0x7F	; 127
+				
+					if(seconds_button>=6 && seconds_button<8)	// длительность нажатия 6-8 сек: настроить цвет подсветки лампы
+					{
+						flag_light_is_on=1;
+						flag_color_setup=1;
+						pwm_b=255;
+ 376:	ff 24       	eor	r15, r15
+ 378:	fa 94       	dec	r15
+	
+	// Главный цикл
+	for(;;)
+	{
+		// Управление пьезоизлучателем
+		if(seconds_working>=MAX_SECONDS_WORKING) flag_piezo_is_on=0;
+ 37a:	80 91 67 00 	lds	r24, 0x0067
+ 37e:	90 91 68 00 	lds	r25, 0x0068
+ 382:	a0 91 69 00 	lds	r26, 0x0069
+ 386:	b0 91 6a 00 	lds	r27, 0x006A
+ 38a:	80 5c       	subi	r24, 0xC0	; 192
+ 38c:	98 4a       	sbci	r25, 0xA8	; 168
+ 38e:	a0 40       	sbci	r26, 0x00	; 0
+ 390:	b0 40       	sbci	r27, 0x00	; 0
+ 392:	10 f0       	brcs	.+4      	; 0x398 <main+0x9a>
+ 394:	10 92 6c 00 	sts	0x006C, r1
+		
+		if(flag_piezo_is_on)
+ 398:	80 91 6c 00 	lds	r24, 0x006C
+ 39c:	88 23       	and	r24, r24
+ 39e:	11 f0       	breq	.+4      	; 0x3a4 <main+0xa6>
+			DDRA|=(1<<PA7);
+ 3a0:	d7 9a       	sbi	0x1a, 7	; 26
+ 3a2:	01 c0       	rjmp	.+2      	; 0x3a6 <main+0xa8>
+		else
+			DDRA&=~(1<<PA7);
+ 3a4:	d7 98       	cbi	0x1a, 7	; 26
+	
+		// Считаем секунды
+		if(flag_second_passed)
+ 3a6:	80 91 64 00 	lds	r24, 0x0064
+ 3aa:	88 23       	and	r24, r24
+ 3ac:	09 f4       	brne	.+2      	; 0x3b0 <main+0xb2>
+ 3ae:	44 c0       	rjmp	.+136    	; 0x438 <main+0x13a>
+		{
+			flag_second_passed=0;
+ 3b0:	10 92 64 00 	sts	0x0064, r1
+			if(seconds_button<255 && !flag_button_is_locked) seconds_button++;
+ 3b4:	80 91 65 00 	lds	r24, 0x0065
+ 3b8:	8f 3f       	cpi	r24, 0xFF	; 255
+ 3ba:	49 f0       	breq	.+18     	; 0x3ce <main+0xd0>
+ 3bc:	80 91 66 00 	lds	r24, 0x0066
+ 3c0:	88 23       	and	r24, r24
+ 3c2:	29 f4       	brne	.+10     	; 0x3ce <main+0xd0>
+ 3c4:	80 91 65 00 	lds	r24, 0x0065
+ 3c8:	8f 5f       	subi	r24, 0xFF	; 255
+ 3ca:	80 93 65 00 	sts	0x0065, r24
+			
+			if((seconds_button==2 || seconds_button==4 || seconds_button==6 || seconds_button==8) && !flag_color_setup) BUTTON_LIGHT_OFF(); // мигаем светодиодом под кнопкой
+ 3ce:	80 91 65 00 	lds	r24, 0x0065
+ 3d2:	82 30       	cpi	r24, 0x02	; 2
+ 3d4:	61 f0       	breq	.+24     	; 0x3ee <main+0xf0>
+ 3d6:	80 91 65 00 	lds	r24, 0x0065
+ 3da:	84 30       	cpi	r24, 0x04	; 4
+ 3dc:	41 f0       	breq	.+16     	; 0x3ee <main+0xf0>
+ 3de:	80 91 65 00 	lds	r24, 0x0065
+ 3e2:	86 30       	cpi	r24, 0x06	; 6
+ 3e4:	21 f0       	breq	.+8      	; 0x3ee <main+0xf0>
+ 3e6:	80 91 65 00 	lds	r24, 0x0065
+ 3ea:	88 30       	cpi	r24, 0x08	; 8
+ 3ec:	29 f4       	brne	.+10     	; 0x3f8 <main+0xfa>
+ 3ee:	80 91 6e 00 	lds	r24, 0x006E
+ 3f2:	88 23       	and	r24, r24
+ 3f4:	09 f4       	brne	.+2      	; 0x3f8 <main+0xfa>
+ 3f6:	db 9a       	sbi	0x1b, 3	; 27
+			
+			if(seconds_working<MAX_SECONDS_WORKING) seconds_working++;
+ 3f8:	80 91 67 00 	lds	r24, 0x0067
+ 3fc:	90 91 68 00 	lds	r25, 0x0068
+ 400:	a0 91 69 00 	lds	r26, 0x0069
+ 404:	b0 91 6a 00 	lds	r27, 0x006A
+ 408:	80 5c       	subi	r24, 0xC0	; 192
+ 40a:	98 4a       	sbci	r25, 0xA8	; 168
+ 40c:	a0 40       	sbci	r26, 0x00	; 0
+ 40e:	b0 40       	sbci	r27, 0x00	; 0
+ 410:	98 f4       	brcc	.+38     	; 0x438 <main+0x13a>
+ 412:	80 91 67 00 	lds	r24, 0x0067
+ 416:	90 91 68 00 	lds	r25, 0x0068
+ 41a:	a0 91 69 00 	lds	r26, 0x0069
+ 41e:	b0 91 6a 00 	lds	r27, 0x006A
+ 422:	01 96       	adiw	r24, 0x01	; 1
+ 424:	a1 1d       	adc	r26, r1
+ 426:	b1 1d       	adc	r27, r1
+ 428:	80 93 67 00 	sts	0x0067, r24
+ 42c:	90 93 68 00 	sts	0x0068, r25
+ 430:	a0 93 69 00 	sts	0x0069, r26
+ 434:	b0 93 6a 00 	sts	0x006A, r27
+		}
+		
+		// Режим выбора цвета лампы	
+		if(flag_color_setup && color_pwm_cycle==PWM_COLOR_CHANGE_STEP)
+ 438:	80 91 6e 00 	lds	r24, 0x006E
+ 43c:	88 23       	and	r24, r24
+ 43e:	09 f4       	brne	.+2      	; 0x442 <main+0x144>
+ 440:	5b c0       	rjmp	.+182    	; 0x4f8 <main+0x1fa>
+ 442:	80 91 72 00 	lds	r24, 0x0072
+ 446:	90 91 73 00 	lds	r25, 0x0073
+ 44a:	88 5e       	subi	r24, 0xE8	; 232
+ 44c:	93 40       	sbci	r25, 0x03	; 3
+ 44e:	09 f0       	breq	.+2      	; 0x452 <main+0x154>
+ 450:	53 c0       	rjmp	.+166    	; 0x4f8 <main+0x1fa>
+		{
+			color_pwm_cycle=0;
+ 452:	10 92 73 00 	sts	0x0073, r1
+ 456:	10 92 72 00 	sts	0x0072, r1
+			
+			switch(rainbow_target_state)
+ 45a:	80 91 77 00 	lds	r24, 0x0077
+ 45e:	82 30       	cpi	r24, 0x02	; 2
+ 460:	f9 f0       	breq	.+62     	; 0x4a0 <main+0x1a2>
+ 462:	83 30       	cpi	r24, 0x03	; 3
+ 464:	30 f4       	brcc	.+12     	; 0x472 <main+0x174>
+ 466:	88 23       	and	r24, r24
+ 468:	59 f0       	breq	.+22     	; 0x480 <main+0x182>
+ 46a:	81 30       	cpi	r24, 0x01	; 1
+ 46c:	09 f0       	breq	.+2      	; 0x470 <main+0x172>
+ 46e:	44 c0       	rjmp	.+136    	; 0x4f8 <main+0x1fa>
+ 470:	0f c0       	rjmp	.+30     	; 0x490 <main+0x192>
+ 472:	84 30       	cpi	r24, 0x04	; 4
+ 474:	39 f1       	breq	.+78     	; 0x4c4 <main+0x1c6>
+ 476:	84 30       	cpi	r24, 0x04	; 4
+ 478:	d8 f0       	brcs	.+54     	; 0x4b0 <main+0x1b2>
+ 47a:	85 30       	cpi	r24, 0x05	; 5
+ 47c:	e9 f5       	brne	.+122    	; 0x4f8 <main+0x1fa>
+ 47e:	31 c0       	rjmp	.+98     	; 0x4e2 <main+0x1e4>
+			{
+				case RAINBOW_NEXT_CYA:
+				{
+					pwm_g++;
+ 480:	80 91 71 00 	lds	r24, 0x0071
+ 484:	8f 5f       	subi	r24, 0xFF	; 255
+ 486:	80 93 71 00 	sts	0x0071, r24
+					if(pwm_g==255) rainbow_target_state++;
+ 48a:	80 91 71 00 	lds	r24, 0x0071
+ 48e:	21 c0       	rjmp	.+66     	; 0x4d2 <main+0x1d4>
+				}
+				break;
+				
+				case RAINBOW_NEXT_GRN:
+				{
+					pwm_b--;
+ 490:	80 91 60 00 	lds	r24, 0x0060
+ 494:	81 50       	subi	r24, 0x01	; 1
+ 496:	80 93 60 00 	sts	0x0060, r24
+					if(pwm_b==0) rainbow_target_state++;
+ 49a:	80 91 60 00 	lds	r24, 0x0060
+ 49e:	0f c0       	rjmp	.+30     	; 0x4be <main+0x1c0>
+				}
+				break;
+				
+				case RAINBOW_NEXT_YEL:
+				{
+					pwm_r++;
+ 4a0:	80 91 70 00 	lds	r24, 0x0070
+ 4a4:	8f 5f       	subi	r24, 0xFF	; 255
+ 4a6:	80 93 70 00 	sts	0x0070, r24
+					if(pwm_r==255) rainbow_target_state++;
+ 4aa:	80 91 70 00 	lds	r24, 0x0070
+ 4ae:	11 c0       	rjmp	.+34     	; 0x4d2 <main+0x1d4>
+				}
+				break;
+				
+				case RAINBOW_NEXT_RED:
+				{
+					pwm_g--;
+ 4b0:	80 91 71 00 	lds	r24, 0x0071
+ 4b4:	81 50       	subi	r24, 0x01	; 1
+ 4b6:	80 93 71 00 	sts	0x0071, r24
+					if(pwm_g==0) rainbow_target_state++;
+ 4ba:	80 91 71 00 	lds	r24, 0x0071
+ 4be:	88 23       	and	r24, r24
+ 4c0:	d9 f4       	brne	.+54     	; 0x4f8 <main+0x1fa>
+ 4c2:	09 c0       	rjmp	.+18     	; 0x4d6 <main+0x1d8>
+				}
+				break;
+				
+				case RAINBOW_NEXT_PUR:
+				{
+					pwm_b++;
+ 4c4:	80 91 60 00 	lds	r24, 0x0060
+ 4c8:	8f 5f       	subi	r24, 0xFF	; 255
+ 4ca:	80 93 60 00 	sts	0x0060, r24
+					if(pwm_b==255) rainbow_target_state++;
+ 4ce:	80 91 60 00 	lds	r24, 0x0060
+ 4d2:	8f 3f       	cpi	r24, 0xFF	; 255
+ 4d4:	89 f4       	brne	.+34     	; 0x4f8 <main+0x1fa>
+ 4d6:	80 91 77 00 	lds	r24, 0x0077
+ 4da:	8f 5f       	subi	r24, 0xFF	; 255
+ 4dc:	80 93 77 00 	sts	0x0077, r24
+ 4e0:	0b c0       	rjmp	.+22     	; 0x4f8 <main+0x1fa>
+				}
+				break;
+				
+				case RAINBOW_NEXT_BLU:
+				{
+					pwm_r--;
+ 4e2:	80 91 70 00 	lds	r24, 0x0070
+ 4e6:	81 50       	subi	r24, 0x01	; 1
+ 4e8:	80 93 70 00 	sts	0x0070, r24
+					if(pwm_r==0) rainbow_target_state=0;
+ 4ec:	80 91 70 00 	lds	r24, 0x0070
+ 4f0:	88 23       	and	r24, r24
+ 4f2:	11 f4       	brne	.+4      	; 0x4f8 <main+0x1fa>
+ 4f4:	10 92 77 00 	sts	0x0077, r1
+				break;
+			}
+		}
+		
+		// Режим настройки интенсивности цвета лампы
+		if(flag_luminance_setup && lumi_pwm_cycle==PWM_LUMI_CHANGE_STEP)
+ 4f8:	80 91 76 00 	lds	r24, 0x0076
+ 4fc:	88 23       	and	r24, r24
+ 4fe:	89 f0       	breq	.+34     	; 0x522 <main+0x224>
+ 500:	80 91 74 00 	lds	r24, 0x0074
+ 504:	90 91 75 00 	lds	r25, 0x0075
+ 508:	80 5d       	subi	r24, 0xD0	; 208
+ 50a:	97 40       	sbci	r25, 0x07	; 7
+ 50c:	51 f4       	brne	.+20     	; 0x522 <main+0x224>
+		{
+			lumi_pwm_cycle=0;
+ 50e:	10 92 75 00 	sts	0x0075, r1
+ 512:	10 92 74 00 	sts	0x0074, r1
+			pwm_lum--;
+ 516:	80 91 61 00 	lds	r24, 0x0061
+ 51a:	81 50       	subi	r24, 0x01	; 1
+ 51c:	80 93 61 00 	sts	0x0061, r24
+			set_Luminance();
+ 520:	21 de       	rcall	.-958    	; 0x164 <set_Luminance>
+		}
+		
+		// Проверка нажатия кнопки
+		if(PINA & (1<<PA1))
+ 522:	c9 9b       	sbis	0x19, 1	; 25
+ 524:	6e c0       	rjmp	.+220    	; 0x602 <main+0x304>
+		{ // если кнопка отжата
+			flag_button_is_locked=0;
+ 526:	10 92 66 00 	sts	0x0066, r1
+			
+			if(button_oldstate) 
+ 52a:	80 91 6b 00 	lds	r24, 0x006B
+ 52e:	88 23       	and	r24, r24
+ 530:	09 f4       	brne	.+2      	; 0x534 <main+0x236>
+ 532:	62 c0       	rjmp	.+196    	; 0x5f8 <main+0x2fa>
+			{ // если кнопка ранее была нажата
+				if(!flag_color_setup && !flag_luminance_setup)
+ 534:	80 91 6e 00 	lds	r24, 0x006E
+ 538:	88 23       	and	r24, r24
+ 53a:	09 f0       	breq	.+2      	; 0x53e <main+0x240>
+ 53c:	5d c0       	rjmp	.+186    	; 0x5f8 <main+0x2fa>
+ 53e:	80 91 76 00 	lds	r24, 0x0076
+ 542:	88 23       	and	r24, r24
+ 544:	09 f0       	breq	.+2      	; 0x548 <main+0x24a>
+ 546:	58 c0       	rjmp	.+176    	; 0x5f8 <main+0x2fa>
+				{ // если не вкл. режим настройки подсветки
+					if(seconds_button>=2 && seconds_button<4)	// длительность нажатия 2-4 сек: вкл/выкл пьезоизлучателя
+ 548:	80 91 65 00 	lds	r24, 0x0065
+ 54c:	82 30       	cpi	r24, 0x02	; 2
+ 54e:	a0 f0       	brcs	.+40     	; 0x578 <main+0x27a>
+ 550:	80 91 65 00 	lds	r24, 0x0065
+ 554:	84 30       	cpi	r24, 0x04	; 4
+ 556:	80 f4       	brcc	.+32     	; 0x578 <main+0x27a>
+					{
+						flag_piezo_is_on=!flag_piezo_is_on;
+ 558:	80 91 6c 00 	lds	r24, 0x006C
+ 55c:	90 e0       	ldi	r25, 0x00	; 0
+ 55e:	88 23       	and	r24, r24
+ 560:	09 f4       	brne	.+2      	; 0x564 <main+0x266>
+ 562:	91 e0       	ldi	r25, 0x01	; 1
+ 564:	90 93 6c 00 	sts	0x006C, r25
+						seconds_working=0;
+ 568:	10 92 67 00 	sts	0x0067, r1
+ 56c:	10 92 68 00 	sts	0x0068, r1
+ 570:	10 92 69 00 	sts	0x0069, r1
+ 574:	10 92 6a 00 	sts	0x006A, r1
+					}
+				
+					if(seconds_button>=4 && seconds_button<6)	// длительность нажатия 4-6 сек: вкл/выкл подсветку
+ 578:	80 91 65 00 	lds	r24, 0x0065
+ 57c:	84 30       	cpi	r24, 0x04	; 4
+ 57e:	80 f0       	brcs	.+32     	; 0x5a0 <main+0x2a2>
+ 580:	80 91 65 00 	lds	r24, 0x0065
+ 584:	86 30       	cpi	r24, 0x06	; 6
+ 586:	60 f4       	brcc	.+24     	; 0x5a0 <main+0x2a2>
+					{
+						flag_light_is_on=!flag_light_is_on;
+ 588:	80 91 6d 00 	lds	r24, 0x006D
+ 58c:	90 e0       	ldi	r25, 0x00	; 0
+ 58e:	88 23       	and	r24, r24
+ 590:	09 f4       	brne	.+2      	; 0x594 <main+0x296>
+ 592:	91 e0       	ldi	r25, 0x01	; 1
+ 594:	90 93 6d 00 	sts	0x006D, r25
+						EEPROM_write(EEPROM_LIGHT_IS_ON,flag_light_is_on);
+ 598:	60 91 6d 00 	lds	r22, 0x006D
+ 59c:	80 e0       	ldi	r24, 0x00	; 0
+ 59e:	9f de       	rcall	.-706    	; 0x2de <EEPROM_write>
+					}
+				
+					if(seconds_button>=6 && seconds_button<8)	// длительность нажатия 6-8 сек: настроить цвет подсветки лампы
+ 5a0:	80 91 65 00 	lds	r24, 0x0065
+ 5a4:	86 30       	cpi	r24, 0x06	; 6
+ 5a6:	90 f0       	brcs	.+36     	; 0x5cc <main+0x2ce>
+ 5a8:	80 91 65 00 	lds	r24, 0x0065
+ 5ac:	88 30       	cpi	r24, 0x08	; 8
+ 5ae:	70 f4       	brcc	.+28     	; 0x5cc <main+0x2ce>
+					{
+						flag_light_is_on=1;
+ 5b0:	10 93 6d 00 	sts	0x006D, r17
+						flag_color_setup=1;
+ 5b4:	10 93 6e 00 	sts	0x006E, r17
+						pwm_b=255;
+ 5b8:	f0 92 60 00 	sts	0x0060, r15
+						pwm_r=0;
+ 5bc:	10 92 70 00 	sts	0x0070, r1
+						pwm_g=0;
+ 5c0:	10 92 71 00 	sts	0x0071, r1
+						rainbow_target_state=RAINBOW_NEXT_CYA;
+ 5c4:	10 92 77 00 	sts	0x0077, r1
+						pwm_lum=127;
+ 5c8:	00 93 61 00 	sts	0x0061, r16
+					}
+					
+					if(seconds_button>=8)	// длительность нажатия 8-... сек: настроить интенсивность подсветки лампы
+ 5cc:	80 91 65 00 	lds	r24, 0x0065
+ 5d0:	88 30       	cpi	r24, 0x08	; 8
+ 5d2:	90 f0       	brcs	.+36     	; 0x5f8 <main+0x2fa>
+					{
+						flag_light_is_on=1;
+ 5d4:	10 93 6d 00 	sts	0x006D, r17
+						flag_luminance_setup=1;
+ 5d8:	10 93 76 00 	sts	0x0076, r17
+						src_pwm_r=EEPROM_read(EEPROM_PWM_R);
+ 5dc:	81 e0       	ldi	r24, 0x01	; 1
+ 5de:	88 de       	rcall	.-752    	; 0x2f0 <EEPROM_read>
+ 5e0:	80 93 7b 00 	sts	0x007B, r24
+						src_pwm_g=EEPROM_read(EEPROM_PWM_G);
+ 5e4:	82 e0       	ldi	r24, 0x02	; 2
+ 5e6:	84 de       	rcall	.-760    	; 0x2f0 <EEPROM_read>
+ 5e8:	80 93 7d 00 	sts	0x007D, r24
+						src_pwm_b=EEPROM_read(EEPROM_PWM_B);
+ 5ec:	83 e0       	ldi	r24, 0x03	; 3
+ 5ee:	80 de       	rcall	.-768    	; 0x2f0 <EEPROM_read>
+ 5f0:	80 93 7a 00 	sts	0x007A, r24
+						pwm_lum=127;
+ 5f4:	00 93 61 00 	sts	0x0061, r16
+					}
+				}				
+			}
+			
+			seconds_button=0;
+ 5f8:	10 92 65 00 	sts	0x0065, r1
+			button_oldstate=0;
+ 5fc:	10 92 6b 00 	sts	0x006B, r1
+ 600:	bc ce       	rjmp	.-648    	; 0x37a <main+0x7c>
+		}
+		else
+		{ // если кнопка нажата
+			button_oldstate=1;
+ 602:	10 93 6b 00 	sts	0x006B, r17
+			if(flag_color_setup || flag_luminance_setup) // подтверждаем настроенный цвет и интенсивность подсветки лампы
+ 606:	80 91 6e 00 	lds	r24, 0x006E
+ 60a:	88 23       	and	r24, r24
+ 60c:	29 f4       	brne	.+10     	; 0x618 <main+0x31a>
+ 60e:	80 91 76 00 	lds	r24, 0x0076
+ 612:	88 23       	and	r24, r24
+ 614:	09 f4       	brne	.+2      	; 0x618 <main+0x31a>
+ 616:	b1 ce       	rjmp	.-670    	; 0x37a <main+0x7c>
+			{
+				flag_luminance_setup=0;
+ 618:	10 92 76 00 	sts	0x0076, r1
+				flag_button_is_locked=1;
+ 61c:	10 93 66 00 	sts	0x0066, r17
+				EEPROM_write(EEPROM_LIGHT_IS_ON,flag_light_is_on);
+ 620:	60 91 6d 00 	lds	r22, 0x006D
+ 624:	80 e0       	ldi	r24, 0x00	; 0
+ 626:	5b de       	rcall	.-842    	; 0x2de <EEPROM_write>
+				if(flag_color_setup)
+ 628:	80 91 6e 00 	lds	r24, 0x006E
+ 62c:	88 23       	and	r24, r24
+ 62e:	61 f0       	breq	.+24     	; 0x648 <main+0x34a>
+				{
+					EEPROM_write(EEPROM_PWM_R,pwm_r);
+ 630:	60 91 70 00 	lds	r22, 0x0070
+ 634:	81 e0       	ldi	r24, 0x01	; 1
+ 636:	53 de       	rcall	.-858    	; 0x2de <EEPROM_write>
+					EEPROM_write(EEPROM_PWM_G,pwm_g);
+ 638:	60 91 71 00 	lds	r22, 0x0071
+ 63c:	82 e0       	ldi	r24, 0x02	; 2
+ 63e:	4f de       	rcall	.-866    	; 0x2de <EEPROM_write>
+					EEPROM_write(EEPROM_PWM_B,pwm_b);
+ 640:	60 91 60 00 	lds	r22, 0x0060
+ 644:	83 e0       	ldi	r24, 0x03	; 3
+ 646:	4b de       	rcall	.-874    	; 0x2de <EEPROM_write>
+				}
+				EEPROM_write(EEPROM_PWM_LUM,pwm_lum);
+ 648:	60 91 61 00 	lds	r22, 0x0061
+ 64c:	84 e0       	ldi	r24, 0x04	; 4
+ 64e:	47 de       	rcall	.-882    	; 0x2de <EEPROM_write>
+				flag_color_setup=0;
+ 650:	10 92 6e 00 	sts	0x006E, r1
+				BUTTON_LIGHT_OFF();
+ 654:	db 9a       	sbi	0x1b, 3	; 27
+ 656:	91 ce       	rjmp	.-734    	; 0x37a <main+0x7c>
+
+00000658 <__mulsi3>:
+ 658:	ff 27       	eor	r31, r31
+ 65a:	ee 27       	eor	r30, r30
+ 65c:	bb 27       	eor	r27, r27
+ 65e:	aa 27       	eor	r26, r26
+
+00000660 <__mulsi3_loop>:
+ 660:	60 ff       	sbrs	r22, 0
+ 662:	04 c0       	rjmp	.+8      	; 0x66c <__mulsi3_skip1>
+ 664:	a2 0f       	add	r26, r18
+ 666:	b3 1f       	adc	r27, r19
+ 668:	e4 1f       	adc	r30, r20
+ 66a:	f5 1f       	adc	r31, r21
+
+0000066c <__mulsi3_skip1>:
+ 66c:	22 0f       	add	r18, r18
+ 66e:	33 1f       	adc	r19, r19
+ 670:	44 1f       	adc	r20, r20
+ 672:	55 1f       	adc	r21, r21
+ 674:	96 95       	lsr	r25
+ 676:	87 95       	ror	r24
+ 678:	77 95       	ror	r23
+ 67a:	67 95       	ror	r22
+ 67c:	89 f7       	brne	.-30     	; 0x660 <__mulsi3_loop>
+ 67e:	00 97       	sbiw	r24, 0x00	; 0
+ 680:	76 07       	cpc	r23, r22
+ 682:	71 f7       	brne	.-36     	; 0x660 <__mulsi3_loop>
+
+00000684 <__mulsi3_exit>:
+ 684:	cf 01       	movw	r24, r30
+ 686:	bd 01       	movw	r22, r26
+ 688:	08 95       	ret
+
+0000068a <__udivmodsi4>:
+ 68a:	a1 e2       	ldi	r26, 0x21	; 33
+ 68c:	1a 2e       	mov	r1, r26
+ 68e:	aa 1b       	sub	r26, r26
+ 690:	bb 1b       	sub	r27, r27
+ 692:	fd 01       	movw	r30, r26
+ 694:	0d c0       	rjmp	.+26     	; 0x6b0 <__udivmodsi4_ep>
+
+00000696 <__udivmodsi4_loop>:
+ 696:	aa 1f       	adc	r26, r26
+ 698:	bb 1f       	adc	r27, r27
+ 69a:	ee 1f       	adc	r30, r30
+ 69c:	ff 1f       	adc	r31, r31
+ 69e:	a2 17       	cp	r26, r18
+ 6a0:	b3 07       	cpc	r27, r19
+ 6a2:	e4 07       	cpc	r30, r20
+ 6a4:	f5 07       	cpc	r31, r21
+ 6a6:	20 f0       	brcs	.+8      	; 0x6b0 <__udivmodsi4_ep>
+ 6a8:	a2 1b       	sub	r26, r18
+ 6aa:	b3 0b       	sbc	r27, r19
+ 6ac:	e4 0b       	sbc	r30, r20
+ 6ae:	f5 0b       	sbc	r31, r21
+
+000006b0 <__udivmodsi4_ep>:
+ 6b0:	66 1f       	adc	r22, r22
+ 6b2:	77 1f       	adc	r23, r23
+ 6b4:	88 1f       	adc	r24, r24
+ 6b6:	99 1f       	adc	r25, r25
+ 6b8:	1a 94       	dec	r1
+ 6ba:	69 f7       	brne	.-38     	; 0x696 <__udivmodsi4_loop>
+ 6bc:	60 95       	com	r22
+ 6be:	70 95       	com	r23
+ 6c0:	80 95       	com	r24
+ 6c2:	90 95       	com	r25
+ 6c4:	9b 01       	movw	r18, r22
+ 6c6:	ac 01       	movw	r20, r24
+ 6c8:	bd 01       	movw	r22, r26
+ 6ca:	cf 01       	movw	r24, r30
+ 6cc:	08 95       	ret
+
+000006ce <_exit>:
+ 6ce:	f8 94       	cli
+
+000006d0 <__stop_program>:
+ 6d0:	ff cf       	rjmp	.-2      	; 0x6d0 <__stop_program>
